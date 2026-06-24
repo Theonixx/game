@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
     
     // TODO: Change this to your deployed backend API URL (e.g. "https://lichtfall-backend.onrender.com")
-    const PRODUCTION_API_URL = "https://your-production-backend.onrender.com";
+    const PRODUCTION_API_URL = "https://lichtfall-backend.onrender.com";
     
     const API_BASE_URL = isLocal 
         ? "http://127.0.0.1:8000/api/auth" 
