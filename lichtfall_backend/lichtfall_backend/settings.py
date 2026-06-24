@@ -93,14 +93,15 @@ if DATABASE_URL:
     except ImportError:
         from urllib.parse import urlparse
         url = urlparse(DATABASE_URL)
+        is_mysql = 'mysql' in url.scheme
         DATABASES = {
             'default': {
-                'ENGINE': 'django.db.backends.mysql' if 'mysql' in url.scheme else 'django.db.backends.postgresql',
+                'ENGINE': 'django.db.backends.mysql' if is_mysql else 'django.db.backends.postgresql',
                 'NAME': url.path[1:],
                 'USER': url.username,
                 'PASSWORD': url.password or '',
                 'HOST': url.hostname or 'localhost',
-                'PORT': str(url.port or 3306),
+                'PORT': str(url.port or (3306 if is_mysql else 5432)),
             }
         }
 else:
