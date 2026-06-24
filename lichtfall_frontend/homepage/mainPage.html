@@ -1,0 +1,401 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lichtfall</title>
+    <link rel="stylesheet" href="src/css/mainPage.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="player-info">
+        <p class="player-info-txt">Alias: <span id="header-alias">[Player_Name]</span></p>
+        <p class="player-info-txt">Level: <span id="header-level">[Level]</span></p>
+        <p class="player-info-txt">Scrap: <span id="header-scrap">[Scrap]</span></p>
+    </header>
+    <main>
+        <nav class="navigation">
+            <ul>
+                <li><button class="navigation-btns-action" data-target="tab-world-map">World Map</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-character">Character</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-inventory">Inventory</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-mech-limbs">Mech Limbs</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-workshop">Workshop</button></li>
+                <!--<li><button class="navigation-btns-action" data-target="tab-quests">Quests</button></li>-->
+                <li><button class="navigation-btns-action" data-target="tab-soul-cores">Soul Cores</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-save">Save / Load</button></li>
+                <li><button class="navigation-btns-action" data-target="tab-settings">Settings</button></li>
+            </ul>
+        </nav>
+        <div id="game-overlay" class="overlay hidden">
+            <div class="overlay-header">
+                <h3 id="overlay-title">[Placeholder Title]</h3>
+                <button id="close-overlay" class="close-btn">X</button>
+            </div>
+            <div class="overlay-content-area">
+                
+                <div id="tab-world-map" class="tab-content">
+                    <div class="map-container">
+                        <div id="map-locations" class="map-placeholder" style="display:flex; flex-direction:column; gap:10px; padding:20px;">
+                            <!-- Travel buttons injected by JS -->
+                        </div>
+                        <div class="map-coordinates">
+                            <p id="current-map-location">Current Location: Eins City</p>
+                            <p>Coordinates: X: 142.5, Y: 89.1</p>
+                            <button id="inn-btn" class="action-btn" style="display:none; margin-top: 15px; border-color:#ffcc00; color:#ffcc00; width:auto; padding:8px 15px;">Rest at Inn (50 Scrap)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-character" class="tab-content">
+                    <div class="character-layout">
+                        <div class="character-avatar-box">
+                            <span>[ Avatar Portrait ]</span>
+                        </div>
+                        <div class="character-stats-panel" id="character-stats-panel">
+                            <div class="stat-block">
+                                <h5>Core Attributes</h5>
+                                <ul>
+                                    <li>Level: <span id="char-level">1</span></li>
+                                    <li>EXP: <span id="char-exp">0</span> / 100</li>
+                                    <li>Stat Points: <span id="char-stat-points">0</span></li>
+                                </ul>
+                                <ul style="margin-top: 15px;">
+                                    <li>STR: <span id="char-str">10 (+0 Mech Bonus) = 10 Total</span> <button class="stat-btn" data-stat="str">+</button></li>
+                                    <li>INT: <span id="char-int">10 (+0 Mech Bonus) = 10 Total</span> <button class="stat-btn" data-stat="int">+</button></li>
+                                    <li>DEX: <span id="char-dex">10 (+0 Mech Bonus) = 10 Total</span> <button class="stat-btn" data-stat="dex">+</button></li>
+                                </ul>
+                            </div>
+                            <div class="stat-block">
+                                <h5>Derived Attributes</h5>
+                                <ul>
+                                    <li>Max HP: <span id="char-hp">100</span></li>
+                                    <li>Max MP: <span id="char-mp">100</span></li>
+                                    <li>Speed: <span id="char-speed">15</span></li>
+                                    <li>Evasion: <span id="char-evasion">10%</span></li>
+                                    <li>Crit Chance: <span id="char-crit">15%</span></li>
+                                    <li>Sanity: <span id="char-sanity">100%</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-inventory" class="tab-content">
+                    <div class="main-inventory-grid">
+                        <span class="inv-item">Iron Scrap (5)</span>
+                        <span class="inv-item">Basic Circuit Board</span>
+                        <span class="inv-item">Rusty Gears x10</span>
+                        <span class="inv-item">Old Wire Coil</span>
+                        <span class="inv-item">Mechanical Leg Joint (Left)</span>
+                        <span class="inv-item">Small HP Potion</span>
+                        <span class="inv-item">HP Restoration Pack (Med)</span>
+                        <span class="inv-item">Repair Kit (Small)</span>
+                        <span class="inv-item">Glowcap Fungus x2</span>
+                        <span class="inv-item">Wolf Fang</span>
+                        <span class="inv-item">Broken Compass</span>
+                        <span class="inv-item">Lump of Coal</span>
+                        <span class="inv-item">Bent Iron Bar</span>
+                        <span class="inv-item">Raw Mana Crystal (Shard)</span>
+                        <span class="inv-item">Scavenged Armor Plate</span>
+                        <span class="inv-item">Ancient Coin x3</span>
+                    </div>
+                </div>
+
+                <div id="tab-mech-limbs" class="tab-content">
+                    <div class="dual-panel-layout">
+                        <div class="panel-left">
+                            <h4 class="panel-title">Inventory</h4>
+                            <div class="scrollable-grid">
+                                <span class="inv-grid-item">Iron Gasket</span>
+                                <span class="inv-grid-item">Brass Piston</span>
+                                <span class="inv-grid-item">Mana Capacitor</span>
+                                <span class="inv-grid-item">Hydraulic Fluid</span>
+                                <span class="inv-grid-item">Old Bearings x4</span>
+                                <span class="inv-grid-item">Conductive Wire (Coil)</span>
+                                <span class="inv-grid-item">Gear x3</span>
+                                <span class="inv-grid-item">Scrap Metal x25</span>
+                                <span class="inv-grid-item">Fuel Cell</span>
+                                <span class="inv-grid-item">Broken Spring</span>
+                                <span class="inv-grid-item">Small Copper Tube</span>
+                                <span class="inv-grid-item">Gasket Seal</span>
+                                <span class="inv-grid-item">Mana-infusion Rod</span>
+                                <span class="inv-grid-item">Lubricant Oil (Small)</span>
+                                <span class="inv-grid-item">Cracked Lens</span>
+                                <span class="inv-grid-item">Battery Pack</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mechan-limbs-panel">
+                            <h4 class="panel-title">Mech Limbs</h4>
+                            <div class="equipment-grid-wrapper">
+                                <div class="equipment-grid">
+                                    <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Head</p></div>
+                                    <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Torso</p></div>
+                                        <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Accessory</p></div>
+                                    <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Left Arm</p></div>
+                                    <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Legs</p></div>
+                                    <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Right Arm</p></div>
+                                        <div class="equip-item"><div class="limb-slot"></div><p class = "limb-label">Feet</p></div>
+                                </div>
+                            </div>
+                            <div class="button-row">
+                                <button class="action-btn equip-btn">Equip</button>
+                                <button class="action-btn unequip-btn">Unequip</button>
+                            </div>
+                            <!-- Item Stats & Details Box -->
+                            <div id="mech-item-details" class="item-details-box">
+                                <h5 id="mech-item-name">Select an item</h5>
+                                <p id="mech-item-desc"></p>
+                                <ul id="mech-item-stats"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-workshop" class="tab-content">
+                    <div class="dual-panel-layout">
+                        <div class="panel-left">
+                            <h4 class="panel-title">Inventory</h4>
+                            <div class="scrollable-grid">
+                                <span class="inv-grid-item">HP Heal Pot (Small)</span>
+                                <span class="inv-grid-item">MP Pot (Small)</span>
+                                <span class="inv-grid-item">Scrap Metal x12</span>
+                                <span class="inv-grid-item">Mana Crystal Shard</span>
+                                <span class="inv-grid-item">Broken Gear</span>
+                                <span class="inv-grid-item">Torn Wiring x3</span>
+                                <span class="inv-grid-item">Rusty Screw</span>
+                                <span class="inv-grid-item">Lump of Coal x2</span>
+                                <span class="inv-grid-item">Old Key</span>
+                                <span class="inv-grid-item"> HP Restoration Pack (Med)</span>
+                                <span class="inv-grid-item">Raw Iron Ore</span>
+                                <span class="inv-grid-item">Copper wire coil</span>
+                            </div>
+                        </div>
+                        
+                        <div class="panel-right">
+                            <h4 class="panel-title">Crafting</h4>
+                            <div class="crafting-nodes-wrapper">
+                                <div class="crafting-nodes">
+                                    <div class="craft-top-row">
+                                        <div class="limb-slot craft-box"></div>
+                                        <div class="craft-line-hz"></div>
+                                        <div class="limb-slot craft-box"></div>
+                                    </div>
+                                    <div class="craft-lines-vertical">
+                                        <div class="diag-left"></div>
+                                        <div class="diag-right"></div>
+                                    </div>
+                                    <div class="craft-bottom-row">
+                                        <div class="limb-slot result-slot craft-box"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="action-btn craft-btn">Craft</button>
+                            <div class="recipe-list" style="margin-top: 20px; text-align: center;">
+                                <h5>Known Recipes:</h5>
+                                <ul id="recipe-list-ul" style="list-style-type: none; padding: 0; font-size: 0.8em; color: #aaa; margin-top: 10px; line-height: 1.5; max-height: 120px; overflow-y: auto;">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-quests" class="tab-content">
+                    <div class="quests-layout">
+                        <div class="quests-list">
+                            <ul id="quest-list-container">
+                                <!-- JS injected quests -->
+                            </ul>
+                        </div>
+                        <div class="quest-details">
+                            <h4 id="quest-detail-title" style="margin-bottom: 15px;">Adventurer Exam</h4>
+                            <p id="quest-detail-description">Objective: Defeat Grandmaster Oser in combat to prove your worth.</p><br>
+                            <p id="quest-detail-reward">Reward: Official Adventurer ID, 500 Scrap.</p><br>
+                            <p id="quest-detail-note"><em>"Oser is an Ice Mage considered an Omega Threat. I shouldn't take this lightly."</em></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-soul-cores" class="tab-content">
+                    <div class="dual-panel-layout">
+                        <div class="panel-left">
+                            <h4 class="panel-title">Available Cores</h4>
+                            <div class="scrollable-grid" id="soul-cores-inventory-grid">
+                                <!-- JS injected -->
+                            </div>
+                        </div>
+                        
+                        <div class="mechan-limbs-panel">
+                            <h4 class="panel-title">Active Soul Core</h4>
+                            <div class="equipment-grid-wrapper" style="align-items: center;">
+                                <div class="equip-item" style="margin:0 auto;">
+                                    <div class="limb-slot" id="soul-core-slot" style="border-color:#9900ff; box-shadow: 0 0 10px #9900ff; cursor: pointer;"></div>
+                                    <p class="limb-label">Soul Core</p>
+                                </div>
+                            </div>
+                            <div class="button-row">
+                                <button class="action-btn equip-btn-core">Bind Core</button>
+                                <button class="action-btn unequip-btn-core">Extract Core</button>
+                            </div>
+                            <div id="soul-core-details" class="item-details-box" style="border-color:#9900ff;">
+                                <h5 id="core-item-name" style="color:#9900ff;">Select a Core</h5>
+                                <p id="core-item-desc"></p>
+                                <ul id="core-item-stats"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-save" class="tab-content">
+                    <div class="save-panel">
+                        <div class="save-controls-row">
+                            <button id="auto-save-toggle" class="action-btn save-control-btn">Auto-Save: ON</button>
+                            <button id="refresh-save-list" class="action-btn save-control-btn">Refresh Slots</button>
+                        </div>
+                        <div class="save-summary">
+                            <p id="save-system-status">Database auto-saves 3 slots. Use Save / Load to manage.</p>
+                        </div>
+                        <div id="save-slot-list" class="save-slot-list"></div>
+                    </div>
+                </div>
+
+                <div id="tab-settings" class="tab-content">
+                    <div class="settings-panel">
+                        <div class="settings-title">Audio Settings</div>
+                        <div class="settings-controls">
+                            <div class="settings-control-group">
+                                <label for="bg-volume-slider" class="settings-label">
+                                    Background Volume: <span id="bg-volume-value">80%</span>
+                                </label>
+                                <input type="range" id="bg-volume-slider" class="settings-slider" min="0" max="100" value="80">
+                            </div>
+                            <div class="settings-control-group">
+                                <label for="ui-volume-slider" class="settings-label">
+                                    UI Volume: <span id="ui-volume-value">60%</span>
+                                </label>
+                                <input type="range" id="ui-volume-slider" class="settings-slider" min="0" max="100" value="60">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class = "content">
+            <div class="content-storyline">
+                <div class = "content-storyline-topsection">
+                    <h4 class = "content-storyline-topsection-header">
+                        <span>[Placeholder]</span>
+                    </h4>
+                    <p class = "content-storyline-topsection-text">
+                        <span>Loading story...</span>
+                    </p>
+                </div>
+                <div class = "content-storyline-bottomsection">
+                    <h4 class = "content-storyline-bottomsection-header">
+                        <span>[Placeholder]</span>
+                        <button id="auto-btn" style="float: right; background: transparent; border: 1px solid #00ffcc; color: #00ffcc; cursor: pointer; padding: 2px 10px; font-family: inherit; font-size: 0.8em; text-transform: uppercase;">Auto: OFF</button>
+                    </h4>
+                    <div class = "content-storyline-bottomsection-buttons">
+                        <!-- Choice buttons will be dynamically injected by game.js -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-combat">
+                <div class="content-combat-topsection">
+                    <h4 class = "content-combat-topsection-header">
+                        <span>Arthur Miller</span>
+                    </h4>
+                    <p class = "content-combat-topsection-text">
+                        <span>Arthur Miller was an American Essayist who is a prominent figure in both Literature and Cinema for 61 years of his life. </span>
+                    </p>
+                </div>
+                <div class = "content-combat-bottomsection">
+                    <h4 class = "content-combat-bottomsection-header">
+                        <span>[Placeholder]</span>
+                    </h4>
+                    <div class = "content-combat-bottomsection-buttons">
+                        <button><span>Action 1</span></button>
+                        <button><span>Action 2</span></button>
+                        <button><span>Action 3</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="statistics">
+            <div class="statistics-enemyStats">
+                <ul>
+                    <li>ENEMY</li>
+                    <li><span>[Name]</span></li>
+                    <li>HP: <span></span></li>
+                    <li>MP: <span>10000</span></li>
+                    <li>STR: <span></span></li>
+                    <li>INT: <span></span></li>
+                    <li style="color:#ff5555; font-size: 0.8em; margin-top: 10px;">Status: <span id="enemy-status-ui">None</span></li>
+                </ul>
+            </div>
+            <div class="statistics-charStats">
+                <ul>
+                    <li>PLAYER</li>
+                    <li>HP: <span></span></li>
+                    <li>MP: <span></span></li>
+                    <li>STR: <span></span></li>
+                    <li>INT: <span></span></li>
+                    <li>OVERHEAT: <span id="player-overheat-ui">0</span>/100</li>
+                    <li style="color:#ff5555; font-size: 0.8em; margin-top: 10px;">Status: <span id="player-status-ui">None</span></li>
+                </ul>
+            </div>
+            <div class="statistics-charSanity">
+                <ul>
+                    <li>SANITY</li>
+                    <li><span>[SAN]</span></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Location: <span>[Place]</span></p>
+        <button class="settings-btn"><span>Settings</span></button>
+        <button onclick="logout()" class="btn">Logout</button>
+    </footer>
+
+    <script src="src/js/navigation.js"></script>
+    <script src="src/js/game.js" defer></script>
+    <script>
+        // Volume control handlers
+        const bgVolumeSlider = document.getElementById('bg-volume-slider');
+        const bgVolumeValue = document.getElementById('bg-volume-value');
+        const uiVolumeSlider = document.getElementById('ui-volume-slider');
+        const uiVolumeValue = document.getElementById('ui-volume-value');
+
+        if (bgVolumeSlider && bgVolumeValue) {
+            const savedBgVolume = localStorage.getItem('lichtfall_bg_volume');
+            if (savedBgVolume) {
+                bgVolumeSlider.value = savedBgVolume;
+                bgVolumeValue.textContent = savedBgVolume + '%';
+            }
+            bgVolumeSlider.addEventListener('input', () => {
+                bgVolumeValue.textContent = bgVolumeSlider.value + '%';
+                localStorage.setItem('lichtfall_bg_volume', bgVolumeSlider.value);
+            });
+        }
+
+        if (uiVolumeSlider && uiVolumeValue) {
+            const savedUiVolume = localStorage.getItem('lichtfall_ui_volume');
+            if (savedUiVolume) {
+                uiVolumeSlider.value = savedUiVolume;
+                uiVolumeValue.textContent = savedUiVolume + '%';
+            }
+            uiVolumeSlider.addEventListener('input', () => {
+                uiVolumeValue.textContent = uiVolumeSlider.value + '%';
+                localStorage.setItem('lichtfall_ui_volume', uiVolumeSlider.value);
+            });
+        }
+    </script>
+</body>
+</html>
